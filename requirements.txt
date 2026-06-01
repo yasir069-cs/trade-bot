@@ -3,4 +3,4 @@ pandas
 pandas-ta
 requests
 numpy
-USING KUCOIN
+
