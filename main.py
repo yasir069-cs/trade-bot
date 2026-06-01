@@ -12,7 +12,7 @@ CHAT_ID = os.getenv("1490359174")
 SYMBOL = "XRP/USDT"
 TIMEFRAMES = ["15m", "1h"]
 
-exchange = ccxt.binance()
+exchange = ccxt.kucoin()
 
 last_signals = {}
 
