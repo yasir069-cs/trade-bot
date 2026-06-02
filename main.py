@@ -1,4 +1,3 @@
-import os
 import time
 import requests
 import pandas as pd
@@ -7,36 +6,35 @@ import ccxt
 
 # ─── CONFIG ───
 
-TELEGRAM_TOKEN = “8966792559:AAF5GIhI9WkL6SL1nX1_NE8_pIBdPADDRRU"
+TELEGRAM_TOKEN = “8966792559:AAF5GIhI9WkL6SL1nX1_NE8_pIBdPADDRRU” 
 CHAT_ID = “1490359174”
 
 SYMBOL = “XRP/USDT”
 TIMEFRAMES = [“15m”, “1h”]
+
+# OKX — Railway pe kaam karta hai, no geo-restriction
+
 exchange = ccxt.okx()
 
-print(“USING BYBIT”)
+print(“USING OKX”)
 print(exchange.id)
 
 last_signals = {}
 
 def send_telegram(message):
 url = f”https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage”
+try:
 requests.post(
 url,
-json={
-“chat_id”: CHAT_ID,
-“text”: message
-},
+json={“chat_id”: CHAT_ID, “text”: message},
 timeout=15
 )
+except Exception as e:
+print(f”Telegram error: {e}”)
 
 def get_data(timeframe):
-print(“FETCHING DATA FROM”, exchange.id)
-ohlcv = exchange.fetch_ohlcv(
-SYMBOL,
-timeframe=timeframe,
-limit=250
-)
+print(f”FETCHING DATA FROM {exchange.id} | {timeframe}”)
+ohlcv = exchange.fetch_ohlcv(SYMBOL, timeframe=timeframe, limit=250)
 
 ```
 df = pd.DataFrame(
@@ -63,7 +61,7 @@ def analyze(timeframe):
 global last_signals
 
 ```
-print(f"Checking XRP {timeframe}")
+print(f"Checking XRP/USDT {timeframe}")
 
 df = get_data(timeframe)
 row = df.iloc[-1]
@@ -71,10 +69,10 @@ row = df.iloc[-1]
 if pd.isna(row["rsi"]) or pd.isna(row["ema21"]):
     return
 
-price = float(row["close"])
-rsi = float(row["rsi"])
-ema21 = float(row["ema21"])
-vwap = float(row["vwap"])
+price    = float(row["close"])
+rsi      = float(row["rsi"])
+ema21    = float(row["ema21"])
+vwap     = float(row["vwap"])
 upper_bb = float(row["BBU_20_2.0"])
 lower_bb = float(row["BBL_20_2.0"])
 
@@ -123,11 +121,14 @@ if signal:
         message = (
             f"{signal}\n\n"
             f"Coin: XRP/USDT\n"
+            f"Exchange: OKX\n"
             f"Timeframe: {timeframe}\n"
             f"Price: {price:.4f}\n"
             f"RSI: {rsi:.2f}\n"
             f"EMA21: {ema21:.4f}\n"
-            f"VWAP: {vwap:.4f}"
+            f"VWAP: {vwap:.4f}\n"
+            f"Upper BB: {upper_bb:.4f}\n"
+            f"Lower BB: {lower_bb:.4f}"
         )
 
         print(message)
@@ -135,7 +136,14 @@ if signal:
 ```
 
 def main():
-send_telegram(“🤖 XRP Alert Bot STARTED\n\nExchange: Bybit\nPairs: XRP/USDT\nTimeframes: 15m + 1h\n\n✅ Monitoring LIVE!”)
+send_telegram(
+“🤖 XRP Alert Bot STARTED\n\n”
+“Exchange: OKX\n”
+“Pair: XRP/USDT\n”
+“Timeframes: 15m + 1h\n”
+“Indicators: RSI + BB + EMA21 + VWAP\n\n”
+“✅ Bot is LIVE!”
+)
 
 ```
 print("EXCHANGE =", exchange.id)
