@@ -29,6 +29,7 @@ def send_telegram(message):
 
 
 def get_data(timeframe):
+    print("FETCHING DATA FROM", exchange.id)
     ohlcv = exchange.fetch_ohlcv(
         SYMBOL,
         timeframe=timeframe,
