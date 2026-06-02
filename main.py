@@ -13,6 +13,7 @@ SYMBOL = "XRP/USDT"
 TIMEFRAMES = ["15m", "1h"]
 
 exchange = ccxt.kucoin()
+print("USING KUCOIN")
 
 last_signals = {}
 
