@@ -11,14 +11,10 @@ CHAT_ID = "1490359174"
 
 SYMBOL = "XRP/USDT"
 TIMEFRAMES = ["15m", "1h"]
-
 exchange = ccxt.kucoin()
-print("=== KUCOIN VERSION RUNNING ===")
-
-
+print("USING KUCOIN")
+print(exchange.id)
 last_signals = {}
-
-
 def send_telegram(message):
     url = f"https://api.telegram.org/bot{TELEGRAM_TOKEN}/sendMessage"
 
@@ -73,6 +69,8 @@ def get_data(timeframe):
 
 def analyze(timeframe):
     global last_signals
+
+    print(f"Checking XRP {timeframe}")
 
     df = get_data(timeframe)
 
