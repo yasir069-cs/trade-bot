@@ -12,7 +12,7 @@ CHAT_ID = “1490359174”
 
 SYMBOL = “XRP/USDT”
 TIMEFRAMES = [“15m”, “1h”]
-exchange = ccxt.bybit()
+exchange = ccxt.okx()
 
 print(“USING BYBIT”)
 print(exchange.id)
