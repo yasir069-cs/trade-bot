@@ -158,7 +158,8 @@ def main():
                 analyze(tf)
 
         except Exception as e:
-            print("ERROR:", e)
+    import traceback
+    traceback.print_exc()
 
         time.sleep(60)
 
