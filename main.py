@@ -46,7 +46,7 @@ def get_data(timeframe):
 
     # Auto detect BB column names
     print("BB Columns:", bb.columns.tolist())
-    upper_col = [c for c in bb.columns if "BBU" in c][0]
+    upper_col = [c for c in bb.columns if "BBB" in c][0]
     lower_col = [c for c in bb.columns if "BBL" in c][0]
 
     df["bb_upper"] = bb[upper_col]
