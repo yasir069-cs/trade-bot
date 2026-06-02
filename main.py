@@ -150,19 +150,20 @@ def main():
 
     send_telegram("🧪 KUCOIN TEST BUILD")
 
+    print("EXCHANGE =", exchange.id)
+
     while True:
 
-        try:
+    try:
 
-            for tf in TIMEFRAMES:
-                analyze(tf)
+        for tf in TIMEFRAMES:
+            analyze(tf)
 
-        except Exception as e:
-    import traceback
-    traceback.print_exc()
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
 
-        time.sleep(60)
-
+    time.sleep(60)
 
 if __name__ == "__main__":
     main()
