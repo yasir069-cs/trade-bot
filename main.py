@@ -43,7 +43,14 @@ def get_data(timeframe):
     df["ema21"] = ta.ema(df["close"], length=21)
 
     bb = ta.bbands(df["close"], length=20, std=2)
-    df = pd.concat([df, bb], axis=1)
+
+    # Auto detect BB column names
+    print("BB Columns:", bb.columns.tolist())
+    upper_col = [c for c in bb.columns if "BBU" in c][0]
+    lower_col = [c for c in bb.columns if "BBL" in c][0]
+
+    df["bb_upper"] = bb[upper_col]
+    df["bb_lower"] = bb[lower_col]
 
     typical_price = (df["high"] + df["low"] + df["close"]) / 3
     df["vwap"] = (
@@ -69,12 +76,12 @@ def analyze(timeframe):
     rsi      = float(row["rsi"])
     ema21    = float(row["ema21"])
     vwap     = float(row["vwap"])
-    upper_bb = float(row["BBU_20_2.0"])
-    lower_bb = float(row["BBL_20_2.0"])
+    upper_bb = float(row["bb_upper"])
+    lower_bb = float(row["bb_lower"])
 
     signal = None
 
-    # ─── STRONG BUY ───
+    # STRONG BUY
     if (
         rsi < 30
         and price > ema21
@@ -83,7 +90,7 @@ def analyze(timeframe):
     ):
         signal = "🚀 STRONG BUY"
 
-    # ─── STRONG SELL ───
+    # STRONG SELL
     elif (
         rsi > 70
         and price < ema21
@@ -92,7 +99,7 @@ def analyze(timeframe):
     ):
         signal = "🔻 STRONG SELL"
 
-    # ─── BUY ───
+    # BUY
     elif (
         rsi < 35
         and price > ema21
@@ -100,7 +107,7 @@ def analyze(timeframe):
     ):
         signal = "📈 BUY"
 
-    # ─── SELL ───
+    # SELL
     elif (
         rsi > 65
         and price < ema21
