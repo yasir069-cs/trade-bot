@@ -13,7 +13,8 @@ SYMBOL = "XRP/USDT"
 TIMEFRAMES = ["15m", "1h"]
 
 exchange = ccxt.kucoin()
-print("USING KUCOIN")
+print("=== KUCOIN VERSION RUNNING ===")
+
 
 last_signals = {}
 
@@ -148,7 +149,7 @@ def analyze(timeframe):
 
 def main():
 
-    send_telegram("✅ XRP Alert Bot Started Successfully")
+    send_telegram("🧪 KUCOIN TEST BUILD")
 
     while True:
 
