@@ -11,8 +11,8 @@ CHAT_ID = "1490359174"
 
 SYMBOL = "XRP/USDT"
 TIMEFRAMES = ["15m", "1h"]
-exchange = ccxt.kucoin()
-print("USING KUCOIN")
+exchange = ccxt.bybit()
+print("USING BYBIT")
 print(exchange.id)
 last_signals = {}
 def send_telegram(message):
@@ -148,7 +148,7 @@ def analyze(timeframe):
 
 def main():
 
-    send_telegram("🧪 KUCOIN TEST BUILD")
+    send_telegram("🧪 STARTED WITH BYBIT")
 
     print("EXCHANGE =", exchange.id)
 
